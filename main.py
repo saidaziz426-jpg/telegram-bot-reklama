@@ -15,6 +15,25 @@ TOKEN = os.getenv("BOT_TOKEN", "8350540859:AAERlHPnfgX7aBnxhIqeu2G9n-jOsiOvJX0")
 
 dp = Dispatcher()
 
+DEFAULT_FORBIDDEN = [
+    "http://",
+    "https://",
+    "t.me/",
+    "telegram.me/",
+    "www.",
+    ".com",
+    ".uz",
+    ".ru",
+    "reklama",
+    "sotiladi",
+    "kanalga obuna",
+]
+
+def get_forbidden_words():
+    extra = os.getenv("FORBIDDEN_WORDS", "")
+    extra_list = [w.strip().lower() for w in extra.split(",") if w.strip()]
+    return DEFAULT_FORBIDDEN + extra_list
+
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     """
@@ -45,7 +64,7 @@ async def check_messages(message: Message) -> None:
     # 2. Kalit so'zlarni tekshirish
     if not found_ads:
         text = (message.text or message.caption or "").lower()
-        forbidden_words = ["http://", "https://", "t.me/", "telegram.me/", "www.", ".com", ".uz", ".ru", "reklama", "sotiladi", "kanalga obuna"]
+        forbidden_words = get_forbidden_words()
         if any(word in text for word in forbidden_words):
             found_ads = True
 
