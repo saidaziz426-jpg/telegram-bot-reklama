@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: reklama-bot
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        value: 8350540859:AAERlHPnfgX7aBnxhIqeu2G9n-jOsiOvJX0
